@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>None-DB</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 650px;
+      height: 400px;
+    }
+    input:focus {
+      outline: none;
+    }
+    input {
+      font-size: 13px;
+      width: 250px;
+      border: solid 3px gray;
+      font-size: 30px;
+      padding: 3px;
+    }
+
+    button {
+      width: 263px;
+      padding: 5px;
+      font-size: 20px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    #inwrap {
+      float: left;
+      height: 100%;
+    }
+    #upwrap {
+      float: right;
+      height: 100%;
+    }
+    .txt {
+      font-size: 18px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .red-border {
+      border: 3px solid red;
+    }
+  </style>
+
+  <body>
+    <div id="wrap">
+      <div id="inwrap">
+        <h1>Sign In</h1>
+        <div class="txt">ID</div>
+        <input type="text" class="login_id" /><br /><br />
+        <div class="txt">PASSWORD</div>
+        <input type="password" class="login_pass" /><br />
+        <button class="loginbtn">Sign In</button>
+      </div>
+      <div id="upwrap">
+        <h1>Sign Up</h1>
+        <div class="txt">ID</div>
+        <input type="text" class="join_id" /><br /><br />
+        <div class="txt">PASSWORD</div>
+        <input type="password" class="join_pass" /><br /><br />
+        <div class="txt">REPEAT PASSWORD</div>
+        <input type="password" class="join_pass_repeat" /><br />
+        <button class="joinbtn">Sign Up</button>
+      </div>
+    </div>
+  </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</html>
