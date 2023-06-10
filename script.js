@@ -1,3 +1,10 @@
+var userID = "guest";
+
+window.addEventListener("scroll", function (e) {
+  e.preventDefault();
+  window.scrollTo(0, 0);
+});
+
 const socket = io();
 window.addEventListener("DOMContentLoaded", function () {
   var loginIdInput = document.querySelector(".login_id");
@@ -90,24 +97,26 @@ socket.on("join_success", (txt) => {
   alert("회원가입이 완료되었습니다.");
 });
 
+function lg() {
+  var joinIdInput = document.querySelector(".login_id");
+  var joinPassInput = document.querySelector(".login_pass");
+  var idValue = joinIdInput.value;
+  var passValue = joinPassInput.value;
+
+  // 아이디와 비밀번호를 JSON 형식으로 저장
+  var data = {
+    id: idValue,
+    password: passValue,
+  };
+
+  // Socket.IO를 사용하여 백엔드 서버로 데이터 전송
+  socket.emit("login", data);
+}
+
 window.addEventListener("DOMContentLoaded", function () {
-  var joinBtn = document.querySelector(".loginbtn");
-
-  // loginbtn 버튼 클릭 이벤트 핸들러
-  joinBtn.addEventListener("click", function () {
-    var joinIdInput = document.querySelector(".login_id");
-    var joinPassInput = document.querySelector(".login_pass");
-    var idValue = joinIdInput.value;
-    var passValue = joinPassInput.value;
-
-    // 아이디와 비밀번호를 JSON 형식으로 저장
-    var data = {
-      id: idValue,
-      password: passValue,
-    };
-
-    // Socket.IO를 사용하여 백엔드 서버로 데이터 전송
-    socket.emit("login", data);
+  var loginbtn = document.querySelector(".loginbtn");
+  loginbtn.addEventListener("click", function () {
+    lg();
   });
 });
 
@@ -118,4 +127,45 @@ socket.on("login_fail", (txt) => {
 socket.on("login_success", (id) => {
   alert("로그인 성공: " + id);
   socket.emit("loginS", id);
+  var wrap1 = document.getElementById("wrap1");
+  wrap1.remove();
+  userID = id;
+
+  socket.emit("id", userID);
+});
+
+function enter(e) {
+  if (e.keyCode == 13) {
+    lg();
+  }
+}
+
+function enterC(e) {
+  if (e.keyCode == 13) {
+    var myChat = document.querySelector("#chat_value").value;
+    Chat(myChat);
+  }
+}
+
+function Sendclick() {
+  var myChat = document.querySelector("#chat_value").value;
+  Chat(myChat);
+}
+
+function Chat(myChat) {
+  // 'id : 채팅내용' 백엔드로 보내기
+  var chated = document.getElementById("chat_wrap").innerText;
+  var newChat = chated + "\n" + userID + " : " + myChat;
+  socket.emit("chat", newChat);
+  document.querySelector("#chat_value").value = "";
+}
+
+socket.on("chatAdd", (chat) => {
+  document.getElementById("chat_wrap").innerText = chat;
+  const element = document.getElementById("chat_wrap");
+  element.scrollTop = element.scrollHeight;
+});
+
+socket.on("Clients", (Clients) => {
+  document.getElementById("clients").innerText = `현재 접속자 수 : ${Clients}`;
 });
