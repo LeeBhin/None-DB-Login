@@ -1,6 +1,6 @@
 
 # None-DB-Login
-DB 없이 회원가입/로그인 구현
+DB 없이 회원가입/로그인 구현 +채팅
 
 ### 모듈
 * Express: Node.js 사용. HTTP 요청 처리 및 정적 파일 서비스 제공.
